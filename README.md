@@ -75,15 +75,15 @@ Todo o funcionamento do sistema de monitoramento com LEDs, buzzer, sensor ultras
 - Jumpers e Protoboard
 
 ## 📁 Estrutura do Código
-- setup(): inicializa pinos, LCD e estado inicial.
-- loop(): executa continuamente a leitura do sensor, define estado, atualiza display, LEDs e buzzer.
+- `setup()`: inicializa pinos, LCD e estado inicial.
+- `loop()`: executa continuamente a leitura do sensor, define estado, atualiza display, LEDs e buzzer.
 
 - Funções auxiliares:
-    - takeDistanceSensor(): mede a distância.
-    - checkState(): define o estado com base na distância.
-    - ledsOnOff(): ativa os LEDs adequados.
-    - displayTwoLines(): atualiza o LCD.
-    - handleBuzzer(): gerencia os padrões de som.
+    - `takeDistanceSensor()`: mede a distância.
+    - `checkState()`: define o estado com base na distância.
+    - `ledsOnOff()`: ativa os LEDs adequados.
+    - `displayTwoLines()`: atualiza o LCD.
+    - `handleBuzzer()`: gerencia os padrões de som.
 
 ## 🧠 Aprendizados
 - Uso prático do sensor HC-SR04.
