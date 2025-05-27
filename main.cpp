@@ -24,6 +24,7 @@ bool canBuzz = false;
 #define TRIGGER_SENSOR 3
 #define ECHO_SENSOR 2
 float distance = 0;
+float previousDistance = -1;
 // Distância padrão para estado OK ou ALERTA
 const float DIST_OK = 150.0;
 const float DIST_ALERT = 100.0;
@@ -69,29 +70,34 @@ void loop() {
     // Checa se o estado atual modificou, se sim ele troca o display
     State previousState = state;
     checkState(); 
-    if (previousState != state) {
+
+    // Checa se o display mudou os valores
+    if (previousState != state || abs(distance - previousDistance) >= 0.1) {
         changeDisplay = true;
     }
 
+    // Liga os LEDs e faz o display
     ledsOnOff();
     if (changeDisplay) {
-        switch (state) {
-        case OK:
-            displayTwoLines("Estado = OK", "Dist = " + String(distance, 1) + "cm");
-            canBuzz = false;
-            break;
-        case ALERT:
-            displayTwoLines("Estado = ALERTA", "Dist = " + String(distance, 1) + "cm");
-            canBuzz = true;
-            break;
-        case DANGER:
-            displayTwoLines("Estado = PERIGO", "Dist = " + String(distance, 1) + "cm");
-            canBuzz = true;
-            break;
-        }
-        changeDisplay = false;
+      if (previousState != state) {
+          switch (state) {
+          case OK:
+              displayState("Estado = OK");
+              canBuzz = false;
+              break;
+          case ALERT:
+              displayState("Estado = ALERTA");
+              canBuzz = true;
+              break;
+          case DANGER:
+              displayState("Estado = PERIGO");
+              canBuzz = true;
+              break;
+          }
+      }
+      displayDistance(distance);
+      changeDisplay = false;
     }
-    handleBuzzer();
 }
 
 // Função que mede a distância usando o sensor ultrassônico HC-SR04
@@ -131,11 +137,27 @@ void ledsOnOff() {
 
 // Display que manda para o LCD_I2C
 void displayTwoLines(String line1, String line2) {
-    lcd.clear();
     lcd.setCursor(0, 0);
     lcd.print(line1);
     lcd.setCursor(0, 1);
     lcd.print(line2);
+}
+
+// Display que manda para o LCD_I2C na primeira linha
+void displayState(String line1) {
+    lcd.setCursor(0, 0);
+    lcd.print("                ");  // Limpa a linha
+    lcd.setCursor(0, 0);
+    lcd.print(line1);
+}
+
+// Display que manda para o LCD_I2C na segunda linha
+void displayDistance(float dist) {
+    lcd.setCursor(0, 1);
+    lcd.print("                ");  // Limpa a linha
+    lcd.setCursor(0, 1);
+    lcd.print("Dist = " + String(dist, 1) + "cm");
+    delay(500);
 }
 
 // Lida com a forma que o BUZZER vai ser ativo de acordo com o estado do sistema
