@@ -58,7 +58,7 @@ Desenvolvemos um sistema embarcado utilizando um sensor ultrassônico HC-SR04, u
 ✅ Link direto para simulação no Wokwi: 🔗 [Acessar a simulação no Wokwi](https://wokwi.com/projects/432133929837943809)
 
 ## 📹 Vídeo Demonstrativo
-Veja o funcionamento prático do projeto com explicação detalhada: [🎬 Assistir Vídeo Demonstrativo]()
+Veja o funcionamento prático do projeto com explicação detalhada: [🎬 Assistir Vídeo Demonstrativo](https://www.youtube.com/watch?v=2lcm9rwL3pA)
 
 ## 📄 Código-fonte
 Todo o funcionamento do sistema de monitoramento com LEDs, buzzer, sensor ultrassônico e display LCD está implementado no código Arduino a seguir:
