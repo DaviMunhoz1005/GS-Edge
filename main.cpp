@@ -35,7 +35,7 @@ const float DIST_ALERT = 100.0;
 #define address 0x27 
 
 LiquidCrystal_I2C lcd(address,column,line);
-boolean changeDisplay;
+boolean changeDisplay; // Flag para saber se o LCD deve ser atualizado
 
 // ENUM DO ESTADO DO SISTEMA
 enum State {
@@ -48,17 +48,21 @@ State state = ALERT;
 
 // Definição do que cada pino do arduino vai fazer no sistema
 void setup() {
-    Serial.begin(9600);
+    Serial.begin(9600); // Inicializa a comunicação serial
 
+    // Configura os pinos dos LEDs como saída
     pinMode(DANGER_LED, OUTPUT);
     pinMode(ALERT_LED, OUTPUT);
     pinMode(OK_LED, OUTPUT);
 
+    // Configura os pinos do sensor ultrassônico
     pinMode(TRIGGER_SENSOR, OUTPUT);
     pinMode(ECHO_SENSOR, INPUT);
     
+    // Configura o pino do buzzer
     pinMode(BUZZER, OUTPUT);
 
+    // Inicializa o display LCD I2C
     lcd.init(); 
     lcd.backlight(); 
     lcd.clear();
@@ -83,19 +87,20 @@ void loop() {
           switch (state) {
           case OK:
               displayState("Estado = OK");
-              canBuzz = false;
+              canBuzz = false; // Em estado OK, o buzzer é desligado
               break;
           case ALERT:
               displayState("Estado = ALERTA");
-              canBuzz = true;
+              canBuzz = true; // Em estado de alerta, o buzzer pode tocar
               break;
           case DANGER:
               displayState("Estado = PERIGO");
-              canBuzz = true;
+              canBuzz = true; // Em estado de perigo, o buzzer pode tocar
               break;
           }
       }
-      displayDistance(distance);
+      displayDistance(distance); // Mostra a nova distância no display
+      handleBuzzer(); // Atualiza o buzzer se necessário
       changeDisplay = false;
     }
 }
